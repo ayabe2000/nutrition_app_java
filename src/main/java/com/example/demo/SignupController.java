@@ -17,6 +17,6 @@ public class SignupController {
 
     @PostMapping("/signup")
     public String postLogin(Model model) {
-        return "redirect:dashboard";
+        return "dashboard";
     }
 }
