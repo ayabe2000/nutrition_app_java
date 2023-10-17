@@ -21,7 +21,6 @@ public class NutritionEntity {
     private double cholesterol;
     private double carbohydrates;
 
-    // コンストラクタ、ゲッター、セッターなどを定義します。
 
     public Long getId() {
         return id;
