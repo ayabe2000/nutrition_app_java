@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-
+    
     @GetMapping("/login")
     public String getLogin(Model model) {
-
+    
         return "login";
     }
 
@@ -37,4 +37,3 @@ public String postLogin(@RequestParam String username, @RequestParam String pass
 }
 
 }
- 30 changes: 30 additions & 0 deletions30 
