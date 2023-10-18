@@ -15,17 +15,18 @@
     <p><strong>Carbohydrates:</strong> 250g</p>
     <p><strong>Fats:</strong> 70g</p>
 
-
     <form action="#" method="post">
         <label>Food:</label>
-        <input type="text" name="food" placeholder="Enter food name" />
+        <select name="food">
+            <option th:each="food : ${foods}" th:value="${food.foodName}" th:text="${food.foodName}"></option>
+        </select>
         <label>Grams:</label>
         <input type="number" name="grams" placeholder="Enter weight in grams" />
         <label>Date:</label>
         <input type="date" name="date" />
         <input type="submit" value="Add" />
     </form>
-
+    
 
     <table>
         <thead>
