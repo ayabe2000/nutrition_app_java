@@ -25,7 +25,17 @@
         <label>Date:</label>
         <input type="date" name="date" />
         <input type="submit" value="Add" />
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
     </form>
+
+    <div th:if="${selectedNutrition != null}">
+        <h4>選択した食品の栄養素情報 (100g当たり)</h4>
+        <p><strong>カロリー(kcal):</strong> <span th:text="${selectedNutrition.energy}"></span></p>
+        <p><strong>タンパク質 (g):</strong> <span th:text="${selectedNutrition.protein}"></span></p>
+        <p><strong>脂質 (g):</strong> <span th:text="${selectedNutrition.fat}"></span></p>
+        <p><strong>コレステロール (mg):</strong> <span th:text="${selectedNutrition.cholesterol}"></span></p>
+        <p><strong>炭水化物 (g):</strong> <span th:text="${selectedNutrition.carbohydrates}"></span></p>
+    </div>
     
 
     <table>
