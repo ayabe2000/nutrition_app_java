@@ -5,13 +5,15 @@
 </head>
 <body class="text-center">
     <h1>Login</h1>
-    <form method="post" action="/login">
+
+    <form method="post" action="/doLogin">
         <label>ユーザーID</label>
-        <input type="text" /><br/>
+        <input type="text" name="username" /><br/>
         <br />
         <label>パスワード</label>
-        <input type="password" /><br/>
+        <input type="password" name="password"/><br/>
         <br />
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
         <button type="submit">ログイン</button>
     </form>
     <br />

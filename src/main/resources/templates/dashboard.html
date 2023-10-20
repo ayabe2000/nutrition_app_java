@@ -15,20 +15,18 @@
     <p><strong>Carbohydrates:</strong> 250g</p>
     <p><strong>Fats:</strong> 70g</p>
 
-
     <form action="#" method="post">
         <label>Food:</label>
         <select name="food">
-            <option th:each="foodName : ${foodNames}" th:value="${foodName}" th:text="${foodName}"></option>
+            <option th:each="food : ${foods}" th:value="${food.foodName}" th:text="${food.foodName}"></option>
         </select>
-        <input type="text" name="food" placeholder="Enter food name" />
         <label>Grams:</label>
         <input type="number" name="grams" placeholder="Enter weight in grams" />
         <label>Date:</label>
         <input type="date" name="date" />
         <input type="submit" value="Add" />
     </form>
-
+    
 
     <table>
         <thead>
@@ -57,9 +55,9 @@
 
     <form action="/logout" method="post">
         <input type="submit" value="Logout" />
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
     </form>
 </div>
 
 </body>
 </html>
-
