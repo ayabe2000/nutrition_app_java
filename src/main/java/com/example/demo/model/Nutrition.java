@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -27,4 +28,8 @@ public class Nutrition {
     private double cholesterol;
     @Column(name = "炭水化物")
     private double carbohydrates;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "date")
+    private double date;
 }

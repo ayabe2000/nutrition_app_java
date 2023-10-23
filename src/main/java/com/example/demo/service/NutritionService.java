@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.repository.NutritionRepository;
 import com.example.demo.model.Nutrition;
+import java.util.List;
 
 
 @Service
@@ -11,6 +12,14 @@ public class NutritionService {
 
     @Autowired
     private NutritionRepository nutritionRepository;
+
+    public List<Nutrition> findAllFoods() {
+        return nutritionRepository.findAll();
+    }
+
+    public List<Nutrition> getPastNutritionHistoryForUser(String username) {
+        return nutritionRepository.findByUsernameOrderByDateDesc(username);
+    }
 
     public Nutrition getNutritionByFoodName(String foodName) {
         return nutritionRepository.findByFoodName(foodName);
