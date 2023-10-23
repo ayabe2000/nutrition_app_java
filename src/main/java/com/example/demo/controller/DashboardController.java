@@ -14,6 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class DashboardController {
@@ -28,9 +31,7 @@ public class DashboardController {
     public String getDashboard(Model model) {
         List<Nutrition> foods = nutritionRepository.findAll();
         model.addAttribute("foods", foods);
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             model.addAttribute("username", userDetails.getUsername());
@@ -58,3 +59,5 @@ public class DashboardController {
     }
 
 }
+
+        
