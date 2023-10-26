@@ -4,20 +4,22 @@ package com.example.demo.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-
 
 
 @Getter
 @Setter
 @Entity
-@Table(name = "nutrition")
-public class Nutrition {
+@Table(name = "nutrition_history")
+public class NutritionHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +36,13 @@ public class Nutrition {
     @Column(name = "コレステロール")
     private Double cholesterol = 0.0;
     @Column(name = "炭水化物")
-    private double carbohydrates = 0.0;
+    private Double carbohydrates = 0.0;
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "grams")
+    private Double grams = 0.0;
+    
+    @Column(name = "username")
+    private String username;
 }

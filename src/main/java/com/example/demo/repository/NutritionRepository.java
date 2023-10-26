@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface NutritionRepository extends JpaRepository<Nutrition, Long> {
     Nutrition findByFoodName(String foodName);
-    List<Nutrition> findByUsernameOrderByDateDesc(String username);
+    List<Nutrition> findAllByFoodName(String foodName);
 }
 
