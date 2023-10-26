@@ -36,8 +36,7 @@ public class DashboardController {
     @Autowired
     private NutritionService nutritionService;
 
-    @Autowired
-    private NutritionService nutritionService;
+    
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
