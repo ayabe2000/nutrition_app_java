@@ -53,7 +53,7 @@ public class NutritionService {
     }
 
 
-
+    //指定されたユーザー名の栄養履歴をデータベースから取得
     public List<NutritionHistory> getPastNutritionHistoryForUser(String username) {
         logger.info("Fetching nutrition history for user: {}", username);
         List<NutritionHistory> history = nutritionHistoryRepository.findAllByUsername(username);
@@ -220,30 +220,5 @@ public class NutritionService {
         return totalNutrition;
     }
 
-    public Nutrition getTotalNutritionForUser(String username) {
-        List<NutritionHistory> userNutritions = nutritionHistoryRepository.findAllByUsername(username);
-        
-        Double totalEnergy = 0.0;
-        Double totalProtein = 0.0;
-        Double totalFat = 0.0;
-        Double totalCholesterol = 0.0;
-        Double totalCarbohydrates = 0.0;
-        
-        for (NutritionHistory nutrition : userNutritions) {
-            totalEnergy += nutrition.getEnergy();
-            totalProtein += nutrition.getProtein();
-            totalFat += nutrition.getFat();
-            totalCholesterol += nutrition.getCholesterol();
-            totalCarbohydrates += nutrition.getCarbohydrates();
-        }
-        
-        Nutrition totalNutrition = new Nutrition();
-        totalNutrition.setEnergy(totalEnergy);
-        totalNutrition.setProtein(totalProtein);
-        totalNutrition.setFat(totalFat);
-        totalNutrition.setCholesterol(totalCholesterol);
-        totalNutrition.setCarbohydrates(totalCarbohydrates);
-        
-        return totalNutrition;
-    }
+    
 }
