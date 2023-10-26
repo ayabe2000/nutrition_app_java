@@ -6,10 +6,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Nutrition;
 import com.example.demo.model.NutritionHistory;
+import com.example.demo.repository.NutritionDailySummary;
 import com.example.demo.service.NutritionService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
-
+import java.util.List;
+import org.springframework.ui.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,6 +56,12 @@ public class NutritionController {
             logger.error("食品の栄養情報の取得中にエラーが発生しました：", e);
             return new ResponseEntity<>("内部エラーが発生しました。", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public String dailySummaries(Model model) {
+        List<NutritionDailySummary> summaries = nutritionService.getDailySummaries();
+        model.addAttribute("summaries", summaries);
+        return "daily-summaries";
     }
 
     // 今日の栄養情報をユーザーの履歴として保存するエンドポイント。

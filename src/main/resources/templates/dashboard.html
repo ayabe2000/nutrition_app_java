@@ -32,25 +32,16 @@
     
 
     <table>
-        <tr>
-            <th>年月日</th>
-            <th>食品</th>
-            <th>グラム</th>
-            <th>カロリー(kcal)</th>
-            <th>タンパク質(g)</th>
-            <th>脂質(g)</th>
-            <th>コレステロール(mg)</th>
-            <th>炭水化物(g)</th>
-        </tr>
-        <tr th:each="nutrition : ${nutritionHistory}">
-            <td th:text="${nutrition.date}"></td>
-            <td th:text="${nutrition.foodName}"></td>
-            <td th:text="${nutrition.grams + 'g'}"></td>
-            <td th:text="${nutrition.energy + 'kcal'}"></td> 
-            <td th:text="${nutrition.protein + 'g'}"></td>
-            <td th:text="${nutrition.fat + 'g'}"></td>
-            <td th:text="${nutrition.cholesterol + 'mg'}"></td>
-            <td th:text="${nutrition.carbohydrates + 'g'}"></td>
+        
+        <tr th:each="summary : ${summaries}">
+            <td th:text="${summary.date}"></td>
+            <td th:text="${summary.foodName}"></td>
+            <td th:text="${summary.grams + 'g'}"></td>
+            <td th:text="${summary.energySum}"></td>
+            <td th:text="${summary.proteinSum}"></td>
+            <td th:text="${summary.fatSum}"></td>
+            <td th:text="${summary.cholesterolSum}"></td>
+            <td th:text="${summary.carbohydratesSum}"></td>
         </tr>
         
     </table>

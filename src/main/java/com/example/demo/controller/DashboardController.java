@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Nutrition;
 import com.example.demo.model.NutritionHistory;
+import com.example.demo.repository.NutritionDailySummary;
 import com.example.demo.service.NutritionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -62,13 +63,14 @@ public class DashboardController {
         String username = getAuthenticatedUsername();
         if (username != null) {
             model.addAttribute("username", username);
+
             
         // 特定のユーザーの過去の栄養履歴を取得
-        List<NutritionHistory> nutritionHistoryList = nutritionService.getPastNutritionHistoryForUser(username);
-        logger.info("Fetched {} nutrition records for user: {}", nutritionHistoryList.size(), username);
+        List<NutritionDailySummary> nutritionSummaryList = nutritionService.getPastNutritionDailySummaryForUser(username);
+        logger.info("Fetched {} nutrition summary records for user: {}", nutritionSummaryList.size(), username);
 
         // nullのオブジェクトをフィルタリング
-        nutritionHistoryList = nutritionHistoryList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        nutritionSummaryList = nutritionSummaryList.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
         // リストの初期化
         List<String> datesList = new ArrayList<>();
@@ -81,18 +83,21 @@ public class DashboardController {
         List<Double> carbohydratesList = new ArrayList<>();
 
         // 過去の栄養履歴から日付、食品名、グラム、および各栄養素を取得
-        for (NutritionHistory history : nutritionHistoryList) {
-            datesList.add(history.getDate().toString()); 
-            gramsList.add(history.getGrams());
-            foodNames.add(history.getFoodName());
-            energyList.add(history.getEnergy());
-            proteinList.add(history.getProtein());
-            fatList.add(history.getFat());
-            cholesterolList.add(history.getCholesterol());
-            carbohydratesList.add(history.getCarbohydrates());
+        for (NutritionDailySummary summary : nutritionSummaryList) {
+            datesList.add(summary.getDate().toString()); 
+            gramsList.add(summary.getGrams());
+            foodNames.add(summary.getFoodName());
+            energyList.add(summary.getEnergySum());
+            proteinList.add(summary.getProteinSum());
+            fatList.add(summary.getFatSum());
+            cholesterolList.add(summary.getCholesterolSum());
+            carbohydratesList.add(summary.getCarbohydratesSum());
 
-            logger.info("Processed nutrition record for food: {}", history.getFoodName());
+            logger.info("Processed nutrition record for food: {}", summary.getFoodName());
         }
+
+        List<NutritionDailySummary> summaries = nutritionService.getDailySummaries();
+        model.addAttribute("summaries", summaries);
 
 
         // モデルに追加
@@ -104,7 +109,7 @@ public class DashboardController {
         model.addAttribute("fatListHistory", fatList);
         model.addAttribute("cholesterolListHistory", cholesterolList);
         model.addAttribute("carbohydratesListHistory", carbohydratesList);
-        model.addAttribute("nutritionHistory", nutritionHistoryList);
+        model.addAttribute("nutritionHistory", nutritionSummaryList);
         logger.info("Data added to the model successfully.");
        }
        
