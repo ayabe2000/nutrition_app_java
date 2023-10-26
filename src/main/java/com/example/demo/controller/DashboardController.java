@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 
-
-
 @Controller
 public class DashboardController {
 
@@ -37,8 +36,12 @@ public class DashboardController {
     @Autowired
     private NutritionService nutritionService;
 
+    @Autowired
+    private NutritionService nutritionService;
+
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
+
         logger.debug("GET ダッシュボードフォームにアクセスしました。");
         //ダッシュボードのモデルデータを設定。
         populateDashboardModel(model);
@@ -47,6 +50,7 @@ public class DashboardController {
         if (todayTotalNutrition != null) {
             logger.info("Energy value of todayTotalNutrition: {}", todayTotalNutrition.getEnergy());
      }
+
         return "dashboard";
     }
     // ダッシュボードのモデルデータを設定するメソッド

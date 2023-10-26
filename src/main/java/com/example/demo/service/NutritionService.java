@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ import com.example.demo.model.NutritionHistory;
 
 @Service
 public class NutritionService {
+
     private static final Logger logger = LoggerFactory.getLogger(NutritionService.class);
 
 
@@ -220,5 +222,4 @@ public class NutritionService {
         return totalNutrition;
     }
 
-    
 }

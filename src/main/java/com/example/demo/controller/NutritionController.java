@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Nutrition;
+
 import com.example.demo.model.NutritionHistory;
 import com.example.demo.repository.NutritionDailySummary;
 import com.example.demo.service.NutritionService;
@@ -27,6 +28,7 @@ public class NutritionController {
 
     @Autowired
     private NutritionService nutritionService;
+
     private static final Logger logger = LoggerFactory.getLogger(NutritionController.class);
     
     // 指定した食品名とグラム数に基づいて栄養を計算するエンドポイント
