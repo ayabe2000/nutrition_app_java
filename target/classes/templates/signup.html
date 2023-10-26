@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<html>
+    <head>
+        <title>signup</title>
+    </head>
+
+    <body class="text-center">
+        <h1>ユーザー登録画面</h1>
+        <form method="post" action="/signup" th:action="@{/signup}">
+            <label>ユーザー名</label>
+            <input type="text" name="username"/><br/>
+            <br />
+            <label>パスワード</label>
+            <input type="password" name="password"/><br/>
+            <br />
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+            <button type="submit">登録</button>
+        </form>
+    </body>
+
+</html>

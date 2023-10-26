@@ -1,0 +1,13 @@
+com\example\demo\model\Nutrition.class
+com\example\demo\service\NutritionService.class
+com\example\demo\service\UserService.class
+com\example\demo\controller\SampleController.class
+com\example\demo\model\User.class
+com\example\demo\repository\NutritionRepository.class
+com\example\demo\controller\DashboardController.class
+com\example\demo\repository\UserRepository.class
+com\example\demo\config\SecurityConfig.class
+com\example\demo\NutritionAppJavaApplication.class
+com\example\demo\controller\SignupController.class
+com\example\demo\controller\NutritionController.class
+com\example\demo\controller\LoginController.class
