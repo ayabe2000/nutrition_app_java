@@ -1,18 +1,24 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Nutrition;
+import com.example.demo.model.NutritionDailySummaryImpl;
 import com.example.demo.model.NutritionHistory;
+import com.example.demo.repository.NutritionDailySummary;
 import com.example.demo.service.NutritionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Optional;
+
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +32,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 
-
-
 @Controller
 public class DashboardController {
 
@@ -36,8 +40,34 @@ public class DashboardController {
     @Autowired
     private NutritionService nutritionService;
 
+    @GetMapping("/edit-entry/{id}")
+    public String editEntry(@PathVariable Long id,Model model) {
+        logger.info("editEntry method called with ID: {}", id);
+        NutritionHistory entry = nutritionService.getEntryById(id);
+
+
+        if (entry == null) {
+            model.addAttribute("errorMessage", "指定されたIDのエントリは存在しません。");
+            return "error-page";
+        }
+
+        model.addAttribute("entry", entry);
+        return "edit-entry"; 
+    }
+
+
+    @PostMapping("/delete-entry/{id}")
+    public String deleteEntry(@PathVariable Long id) {
+        logger.info("deleteEntry method called with ID: {}", id);
+        nutritionService.deleteEntryById(id); 
+        return "redirect:/dashboard";
+    }
+
+    
+
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
+
         logger.debug("GET ダッシュボードフォームにアクセスしました。");
         //ダッシュボードのモデルデータを設定。
         populateDashboardModel(model);
@@ -46,6 +76,7 @@ public class DashboardController {
         if (todayTotalNutrition != null) {
             logger.info("Energy value of todayTotalNutrition: {}", todayTotalNutrition.getEnergy());
      }
+
         return "dashboard";
     }
     // ダッシュボードのモデルデータを設定するメソッド
@@ -62,13 +93,14 @@ public class DashboardController {
         String username = getAuthenticatedUsername();
         if (username != null) {
             model.addAttribute("username", username);
+
             
         // 特定のユーザーの過去の栄養履歴を取得
-        List<NutritionHistory> nutritionHistoryList = nutritionService.getPastNutritionHistoryForUser(username);
-        logger.info("Fetched {} nutrition records for user: {}", nutritionHistoryList.size(), username);
+        List<NutritionDailySummary> nutritionSummaryList = nutritionService.getPastNutritionDailySummaryForUser(username);
+        logger.info("Fetched {} nutrition summary records for user: {}", nutritionSummaryList.size(), username);
 
         // nullのオブジェクトをフィルタリング
-        nutritionHistoryList = nutritionHistoryList.stream().filter(Objects::nonNull).collect(Collectors.toList());
+        nutritionSummaryList = nutritionSummaryList.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
         // リストの初期化
         List<String> datesList = new ArrayList<>();
@@ -81,18 +113,21 @@ public class DashboardController {
         List<Double> carbohydratesList = new ArrayList<>();
 
         // 過去の栄養履歴から日付、食品名、グラム、および各栄養素を取得
-        for (NutritionHistory history : nutritionHistoryList) {
-            datesList.add(history.getDate().toString()); 
-            gramsList.add(history.getGrams());
-            foodNames.add(history.getFoodName());
-            energyList.add(history.getEnergy());
-            proteinList.add(history.getProtein());
-            fatList.add(history.getFat());
-            cholesterolList.add(history.getCholesterol());
-            carbohydratesList.add(history.getCarbohydrates());
+        for (NutritionDailySummary summary : nutritionSummaryList) {
+            datesList.add(summary.getDate().toString()); 
+            gramsList.add(summary.getGrams());
+            foodNames.add(summary.getFoodName());
+            energyList.add(summary.getEnergy());
+            proteinList.add(summary.getProtein());
+            fatList.add(summary.getFat());
+            cholesterolList.add(summary.getCholesterol());
+            carbohydratesList.add(summary.getCarbohydrates());
 
-            logger.info("Processed nutrition record for food: {}", history.getFoodName());
+            logger.info("Processed nutrition record for food: {}", summary.getFoodName());
         }
+
+        List<NutritionDailySummary> summaries = nutritionService.getDailySummaries();
+        model.addAttribute("summaries", summaries);
 
 
         // モデルに追加
@@ -104,7 +139,7 @@ public class DashboardController {
         model.addAttribute("fatListHistory", fatList);
         model.addAttribute("cholesterolListHistory", cholesterolList);
         model.addAttribute("carbohydratesListHistory", carbohydratesList);
-        model.addAttribute("nutritionHistory", nutritionHistoryList);
+        model.addAttribute("nutritionHistory", nutritionSummaryList);
         logger.info("Data added to the model successfully.");
        }
        
@@ -118,6 +153,25 @@ public class DashboardController {
         }
 
         model.addAttribute("todayTotalNutrition", todayTotalNutrition);
+    }
+
+    @PostMapping("/dashboard/update-entry")
+    public String updateEntry(NutritionDailySummaryImpl entry) {
+        // データベースの更新処理を行う
+        // 以下は例です。具体的な更新処理を追加してください。
+        Optional<NutritionHistory> existingEntry = nutritionService.findSummaryById(entry.getId());
+        if (existingEntry.isPresent()) {
+            NutritionHistory updatedEntry = existingEntry.get();
+            updatedEntry.setFoodName(entry.getFoodName());
+            updatedEntry.setGrams(entry.getGrams());
+            updatedEntry.setDate(entry.getDate());
+
+            // 更新したエントリをデータベースに保存
+            nutritionService.saveOrUpdateSummary(updatedEntry);
+        }
+
+        // 更新後にダッシュボードにリダイレクト
+        return "redirect:/dashboard";
     }
     
 
