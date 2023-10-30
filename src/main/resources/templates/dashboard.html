@@ -9,13 +9,15 @@
 
     <h2>Welcome, <span th:text="${username}"></span>!</h2>
 
-    <h3>１日の栄養摂取量</h3>
-    <p><strong>Calories:</strong> 2000kcal</p>
-    <p><strong>Protein:</strong> 50g</p>
-    <p><strong>Carbohydrates:</strong> 250g</p>
-    <p><strong>Fats:</strong> 70g</p>
-
-    <form action="#" method="post">
+    <div th:if="${todayTotalNutrition != null}">
+        <h4>選択した食品の栄養素情報 (100g当たり)</h4>
+        <p><strong>カロリー(kcal):</strong> <span th:text="${todayTotalNutrition.energy}"></span></p>
+        <p><strong>タンパク質 (g):</strong> <span th:text="${todayTotalNutrition.protein}"></span></p>
+        <p><strong>脂質 (g):</strong> <span th:text="${todayTotalNutrition.fat}"></span></p>
+        <p><strong>コレステロール (mg):</strong> <span th:text="${todayTotalNutrition.cholesterol}"></span></p>
+        <p><strong>炭水化物 (g):</strong> <span th:text="${todayTotalNutrition.carbohydrates}"></span></p>
+    </div>
+    <form action="/dashboard" method="post">
         <label>Food:</label>
         <select name="food">
             <option th:each="food : ${foods}" th:if="${food != null}" th:value="${food.getFoodName}" th:text="${food.getFoodName}"></option>
@@ -39,28 +41,18 @@
     
 
     <table>
-        <thead>
-            <tr>
-                <th>年月日</th>
-                <th>カロリー(kcal)</th>
-                <th>タンパク質 (g)</th>
-                <th>脂質 (g)</th>
-                <th>コレステロール (mg)</th>
-                <th>炭水化物 (g)</th>
-                <th>食品</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>2023-10-13</td>
-                <td>Chicken</td>
-                <td>150g</td>
-                <td>200kcal</td>
-                <td>30g</td>
-                <td>5g</td>
-                <td>10g</td>
-            </tr>
-        </tbody>
+        
+        <tr th:each="summary : ${summaries}">
+            <td th:text="${summary.date}"></td>
+            <td th:text="${summary.foodName}"></td>
+            <td th:text="${summary.grams + 'g'}"></td>
+            <td th:text="${summary.energySum}"></td>
+            <td th:text="${summary.proteinSum}"></td>
+            <td th:text="${summary.fatSum}"></td>
+            <td th:text="${summary.cholesterolSum}"></td>
+            <td th:text="${summary.carbohydratesSum}"></td>
+        </tr>
+        
     </table>
 
     <form action="/logout" method="post">
@@ -70,5 +62,6 @@
 </div>
 
 </body>
+
 </html>
-}
+
