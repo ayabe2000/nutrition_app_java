@@ -99,6 +99,12 @@ public class DashboardController {
         List<NutritionDailySummary> nutritionSummaryList = nutritionService.getPastNutritionDailySummaryForUser(username);
         logger.info("Fetched {} nutrition summary records for user: {}", nutritionSummaryList.size(), username);
 
+        if (nutritionSummaryList == null) {
+            logger.error("nutritionSummaryList is null.");
+            return;
+        }
+
+
         // nullのオブジェクトをフィルタリング
         nutritionSummaryList = nutritionSummaryList.stream().filter(Objects::nonNull).collect(Collectors.toList());
 

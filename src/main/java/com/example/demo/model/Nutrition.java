@@ -35,3 +35,5 @@ public class Nutrition {
     private Double cholesterol = 0.0;
     @Column(name = "炭水化物")
     private Double carbohydrates = 0.0;
+
+}
