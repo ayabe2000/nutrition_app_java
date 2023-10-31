@@ -31,8 +31,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 
-
-
 @Controller
 public class DashboardController {
 
@@ -45,8 +43,8 @@ public class DashboardController {
     public String editEntry(@PathVariable Long id,Model model) {
         logger.info("editEntry method called with ID: {}", id);
         NutritionHistory entry = nutritionService.getEntryById(id);
-        
-      
+
+
         if (entry == null) {
             model.addAttribute("errorMessage", "指定されたIDのエントリは存在しません。");
             return "error-page";
@@ -64,6 +62,7 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
+    
 
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
