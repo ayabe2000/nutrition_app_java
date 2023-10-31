@@ -34,5 +34,4 @@ public class Nutrition {
     @Column(name = "コレステロール")
     private Double cholesterol = 0.0;
     @Column(name = "炭水化物")
-    private double carbohydrates = 0.0;
-}
+    private Double carbohydrates = 0.0;

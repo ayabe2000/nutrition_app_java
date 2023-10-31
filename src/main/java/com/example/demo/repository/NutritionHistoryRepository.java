@@ -18,6 +18,8 @@ public interface NutritionHistoryRepository extends JpaRepository<NutritionHisto
     List<NutritionHistory> findAllByUsername(@Param("username") String username);
 
 
+
+  
     @Query("SELECT " +
        "MIN(n.id) AS id, " +
        "n.date AS date, " +
@@ -34,6 +36,7 @@ public interface NutritionHistoryRepository extends JpaRepository<NutritionHisto
 List<NutritionDailySummary> findDailySummaries();
 
 }
+
 
 
 
