@@ -37,4 +37,7 @@ out/
 .vscode/
 
 
+### Maven ###
 target/
+
+
