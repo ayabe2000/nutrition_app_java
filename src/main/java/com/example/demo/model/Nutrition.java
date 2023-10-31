@@ -36,4 +36,6 @@ public class Nutrition {
     @Column(name = "炭水化物")
     private Double carbohydrates = 0.0;
 
+
 }
+

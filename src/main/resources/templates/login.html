@@ -2,21 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
-</head>
-<body class="text-center">
-    <h1>Login</h1>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <form method="post" action="/doLogin">
-        <label>ユーザーID</label>
-        <input type="text" name="username" /><br/>
-        <br />
-        <label>パスワード</label>
-        <input type="password" name="password"/><br/>
-        <br />
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                clifford: '#da373d',
+              }
+            }
+          }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 p-6">
+
+<div class="max-w-sm mx-auto bg-white p-6 rounded shadow-md text-center">
+    <h1 class="text-xl font-bold mb-4">Login</h1>
+
+    <form method="post" action="/doLogin" class="space-y-4">
+        <div>
+            <label class="block text-left">ユーザーID</label>
+            <input type="text" name="username" class="w-full px-3 py-2 border rounded" />
+        </div>
+        <div>
+            <label class="block text-left">パスワード</label>
+            <input type="password" name="password" class="w-full px-3 py-2 border rounded"/>
+        </div>
         <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
-        <button type="submit">ログイン</button>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full">ログイン</button>
     </form>
     <br />
-    <a th:href="@{'/signup'}">新規登録はこちら</a>
+    <a th:href="@{'/signup'}" class="text-blue-500 hover:text-blue-700">新規登録はこちら</a>
+</div>
+
 </body>
 </html>

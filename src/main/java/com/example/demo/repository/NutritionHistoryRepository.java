@@ -38,6 +38,3 @@ List<NutritionDailySummary> findDailySummaries();
 }
 
 
-
-
-
