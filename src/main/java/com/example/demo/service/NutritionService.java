@@ -17,6 +17,8 @@ import com.example.demo.repository.NutritionRepository;
 import com.example.demo.model.Nutrition;
 import com.example.demo.model.NutritionDailySummaryImpl;
 import com.example.demo.model.NutritionHistory;
+import java.util.Optional;
+
 
 
 
@@ -32,7 +34,24 @@ public class NutritionService {
     @Autowired
     private NutritionRepository nutritionRepository;
 
-   
+    public NutritionHistory saveOrUpdateSummary(NutritionHistory entry) {
+        return nutritionHistoryRepository.save(entry);
+    }
+
+    public Optional<NutritionHistory> findSummaryById(Long id) {
+        return nutritionHistoryRepository.findById(id);
+    }
+    
+
+    public NutritionHistory getEntryById(Long id) {
+        logger.info("getEntryById method called with ID: {}", id);
+        return nutritionHistoryRepository.findById(id).orElse(null); // IDでエントリを取得
+    }
+
+    public void deleteEntryById(Long id) {
+        logger.info("deleteEntryById method called with ID: {}", id);
+        nutritionHistoryRepository.deleteById(id); // IDでエントリを削除
+    }
 
     public List<NutritionDailySummary> getDailySummaries() {
         return nutritionHistoryRepository.findDailySummaries();
@@ -90,11 +109,11 @@ public class NutritionService {
                 totalCarbohydrates += history.getCarbohydrates();
             }
 
-            dailySummary.setEnergySum(totalEnergy);
-            dailySummary.setProteinSum(totalProtein);
-            dailySummary.setFatSum(totalFat);
-            dailySummary.setCholesterolSum(totalCholesterol);
-            dailySummary.setCarbohydratesSum(totalCarbohydrates);
+            dailySummary.setEnergy(totalEnergy);
+            dailySummary.setProtein(totalProtein);
+            dailySummary.setFat(totalFat);
+            dailySummary.setCholesterol(totalCholesterol);
+            dailySummary.setCarbohydrates(totalCarbohydrates);
             
             dailySummaries.add(dailySummary);
         }

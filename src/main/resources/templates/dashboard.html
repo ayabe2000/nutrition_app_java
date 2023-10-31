@@ -46,11 +46,21 @@
             <td th:text="${summary.date}"></td>
             <td th:text="${summary.foodName}"></td>
             <td th:text="${summary.grams + 'g'}"></td>
-            <td th:text="${summary.energySum}"></td>
-            <td th:text="${summary.proteinSum}"></td>
-            <td th:text="${summary.fatSum}"></td>
-            <td th:text="${summary.cholesterolSum}"></td>
-            <td th:text="${summary.carbohydratesSum}"></td>
+            <td th:text="${summary.energy}"></td>
+            <td th:text="${summary.protein}"></td>
+            <td th:text="${summary.fat}"></td>
+            <td th:text="${summary.cholesterol}"></td>
+            <td th:text="${summary.carbohydrates}"></td>
+            <td>
+
+      
+                <a th:href="@{/edit-entry/{id}(id=${summary.id})}">修正</a>
+           
+                <form th:action="@{/delete-entry/{id}(id=${summary.id})}" method="post" style="display:inline;">
+                    <input type="submit" value="削除" />
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+                </form>
+            </td>
         </tr>
         
     </table>

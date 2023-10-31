@@ -47,6 +47,7 @@ public class SecurityConfig {
             )
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/login", "/signup", "/dashboard", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers("/edit-entry/**").authenticated()
                 .anyRequest().authenticated()
             );
         return http.build();

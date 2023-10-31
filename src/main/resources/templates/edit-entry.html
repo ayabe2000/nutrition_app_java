@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Entry</title>
+</head>
+<body>
+
+<form action="/dashboard/update-entry" method="post">
+    <input type="hidden" name="id" th:value="${entry.id}" />
+    <label>Food:</label>
+    <input type="text" name="foodName" th:value="${entry.foodName}" />
+    <label>Grams:</label>
+    <input type="number" name="grams" th:value="${entry.grams}" />
+    <label>Date:</label>
+    <input type="date" name="date" th:value="${entry.date}" />
+    <input type="submit" value="Update" />
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+</form>
+
+</body>
+</html>

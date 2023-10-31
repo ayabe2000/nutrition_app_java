@@ -18,8 +18,21 @@ public interface NutritionHistoryRepository extends JpaRepository<NutritionHisto
     List<NutritionHistory> findAllByUsername(@Param("username") String username);
 
 
-    @Query("SELECT n.date AS date, n.foodName AS foodName, SUM(n.grams) AS grams, SUM(n.energy) AS energySum, SUM(n.protein) AS proteinSum, SUM(n.fat) AS fatSum, SUM(n.cholesterol) AS cholesterolSum, SUM(n.carbohydrates) AS carbohydratesSum FROM NutritionHistory n GROUP BY n.date, n.foodName ORDER BY n.date DESC")
-    List<NutritionDailySummary> findDailySummaries();
+    @Query("SELECT " +
+       "MIN(n.id) AS id, " +
+       "n.date AS date, " +
+       "string_agg(n.foodName, ', ') AS foodNames, " + // foodNamesをカンマで区切って連結
+       "SUM(n.grams) AS grams, " +
+       "SUM(n.energy) AS energy, " +
+       "SUM(n.protein) AS protein, " +
+       "SUM(n.fat) AS fat, " +
+       "SUM(n.cholesterol) AS cholesterol, " +
+       "SUM(n.carbohydrates) AS carbohydrates " +
+       "FROM NutritionHistory n " +
+       "GROUP BY n.date " +
+       "ORDER BY n.date DESC")
+List<NutritionDailySummary> findDailySummaries();
+
 }
 
 
