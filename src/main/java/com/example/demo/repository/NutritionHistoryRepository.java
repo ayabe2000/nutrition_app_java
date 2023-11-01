@@ -23,7 +23,7 @@ public interface NutritionHistoryRepository extends JpaRepository<NutritionHisto
     @Query("SELECT " +
        "MIN(n.id) AS id, " +
        "n.date AS date, " +
-       "string_agg(n.foodName, ', ') AS foodNames, " + // foodNamesをカンマで区切って連結
+       "string_agg(COALESCE(n.foodName, ''), ', ') AS foodName,"+
        "SUM(n.grams) AS grams, " +
        "SUM(n.energy) AS energy, " +
        "SUM(n.protein) AS protein, " +
